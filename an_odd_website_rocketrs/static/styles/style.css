@@ -1,0 +1,35 @@
+body {
+    background-color: #212529;
+    color: white;
+}
+
+.input-group-text {
+    background-color: #212529;
+    color: white;
+}
+
+.form-control {
+    background-color: #212529;
+    color: white;
+}
+
+.form-control:focus {
+    background-color: #212529;
+    color: white;
+}
+
+.form-control::placeholder {
+    color: gray;
+}
+
+#page-body {
+    margin-block: 1rem;
+}
+
+#newClientContent {
+    background-color: #212529;
+}
+
+#left-col {
+    text-align: right;
+}

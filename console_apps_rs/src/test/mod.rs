@@ -1,0 +1,13 @@
+mod calculator_test;
+mod circles_test;
+mod csv_test;
+mod date_time_test;
+mod dice_roll_test;
+mod filter_test;
+mod fizz_buzz_test;
+mod map_test;
+mod multiplication_tables_test;
+mod palindrome_test;
+mod reduce_test;
+mod remove_test;
+mod reverse_array_test;
