@@ -1,9 +1,5 @@
 # Rust Meta Repo
 
-get submodule code:
-
-	git submodule update --init --recursive
-
 create a new rust project with;
 
     cargo new name
