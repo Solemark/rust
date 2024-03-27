@@ -71,7 +71,7 @@ fn app(cx: Scope) -> Element {
                             name.set("".to_string());
                             mark.set("".to_string());
                         },
-                        "submit",
+                        "Submit",
                     }
                 }
             }
