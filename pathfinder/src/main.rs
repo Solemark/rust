@@ -2,7 +2,7 @@ mod pathfinder;
 use crate::pathfinder::{calculate, draw_board};
 
 fn cli() {
-    let mut field: [[char; 10]; 10] = [
+    let field: [[char; 10]; 10] = [
         ['@', '@', '@', '@', '@', '@', '@', '@', '@', '@'],
         ['@', 'X', ' ', ' ', ' ', 'T', ' ', ' ', ' ', '@'],
         ['@', '@', '@', '@', '@', ' ', '@', '@', ' ', '@'],
@@ -14,8 +14,7 @@ fn cli() {
         ['@', ' ', ' ', ' ', '@', ' ', ' ', ' ', ' ', '@'],
         ['@', '@', '@', '@', '@', '@', '@', '@', '+', '@'],
     ];
-    calculate(&mut field, 9, 8);
-    println!("{}", draw_board(field));
+    println!("{}", draw_board(calculate(field, 9, 8)));
 }
 
 fn main() {
