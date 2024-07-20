@@ -5,6 +5,7 @@ mod date_time_test;
 mod dice_roll_test;
 mod filter_test;
 mod fizz_buzz_test;
+mod json_formatter_test;
 mod map_test;
 mod multiplication_tables_test;
 mod palindrome_test;

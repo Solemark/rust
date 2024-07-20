@@ -1,0 +1,40 @@
+<body onload="getJobs()">
+    <!--NAVBAR-->
+    <div>
+        <h2>Accounting</h2>
+        <button type="button" class="blueButton" onclick="newExport.showModal()">New</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Export Name</th>
+                    <th>Export Created</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="jobs-table"></tbody>
+        </table>
+    </div>
+</body>
+<!-- New Export Dialog -->
+<dialog id="newExport">
+    <div>
+        <h1>Create New Export</h1>
+        <div>
+            <table>
+                <tr>
+                    <td class="left-col"><span>Export</span></td>
+                    <td>
+                        <select id="export-select" name="exporters"></select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <button class="redButton" type="button" onclick="newExport.close()">Cancel</button>
+            <button class="blueButton" type="submit" onclick="sendJob()">Save</button>
+        </div>
+    </div>
+</dialog>
+
+</html>

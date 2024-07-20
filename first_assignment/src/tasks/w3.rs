@@ -9,16 +9,14 @@ fn get_grade(input: String) -> String {
         .trim()
         .parse()
         .expect("Failed to pass String to number");
-    let output: String;
     match value {
-        0..=49 => output = String::from("Failed"),
-        50..=64 => output = String::from("Passed"),
-        65..=74 => output = String::from("Credit"),
-        75..=84 => output = String::from("Distinction"),
-        85..=100 => output = String::from("High Distinction"),
-        _ => output = format!("Error! Number {} out of bounds!", value),
+        0..=49 => String::from("Failed"),
+        50..=64 => String::from("Passed"),
+        65..=74 => String::from("Credit"),
+        75..=84 => String::from("Distinction"),
+        85..=100 => String::from("High Distinction"),
+        _ => format!("Error! Number {} out of bounds!", value),
     }
-    output
 }
 
 pub fn w3() -> String {

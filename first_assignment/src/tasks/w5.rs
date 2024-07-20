@@ -1,79 +1,82 @@
-use dioxus::prelude::*;
-pub fn w5() {
-    dioxus_desktop::launch(app)
+use iced::widget::{button, column, row, text, text_input};
+use iced::{Alignment, Element, Sandbox, Settings, Theme};
+
+pub fn w5() -> iced::Result {
+    W5::run(Settings::default())
 }
 
-fn app(cx: Scope) -> Element {
-    let name: &UseState<String> = use_state(cx, || "".to_string());
-    let mark: &UseState<String> = use_state(cx, || "".to_string());
-    let total: &UseState<i32> = use_state(cx, || 0);
-    let count: &UseState<i32> = use_state(cx, || 0);
-    let avg: &UseState<i32> = use_state(cx, || 0);
-    cx.render(rsx! {
-            table {
-                tr {
-                    td {
-                        label {"Name:"}
-                    }
-                    td {
-                        input {
-                            name: "name",
-                            value: "{name}",
-                            oninput: move |evt| name.set(evt.value.clone())
-                        }
-                    }
-                }
-                tr {
-                    td {
-                        label {"Mark:"}
-                    }
-                    td {
-                        input {
-                            name: "mark",
-                            value: "{mark}",
-                            oninput: move |evt| mark.set(evt.value.clone())
-                        }
-                    }
-                }
-                tr {
-                    td {
-                        label {"Total:"}
-                    }
-                    td {
-                        label {"{total}"}
-                    }
-                }
-                tr {
-                    td {
-                        label {"Count:"}
-                    }
-                    td {
-                        label {"{count}"}
-                    }
-                }
-                tr {
-                    td {
-                        label {"Average:"}
-                    }
-                    td {
-                        label {"{avg}"}
-                    }
-                }
-                tr {
-                    button {
-                        onclick: move |_| {
-                            let mark_: i32 = mark.get().trim().parse().expect("unable to convert to i32");
-                            let total_: i32 = total.get() + mark_;
-                            let count_: i32 = count.get() + 1;
-                            total.set(total_);
-                            count.set(count_);
-                            avg.set(total_ / count_);
-                            name.set("".to_string());
-                            mark.set("".to_string());
-                        },
-                        "Submit",
-                    }
-                }
+struct W5 {
+    name: String,
+    mark: u32,
+    total: u32,
+    avg: u32,
+    count: u32,
+}
+
+#[derive(Debug, Clone)]
+enum Message {
+    Submit,
+    Clear,
+    UpdateName(String),
+    UpdateMark(String),
+}
+
+impl Sandbox for W5 {
+    type Message = Message;
+
+    fn new() -> Self {
+        Self {
+            name: String::new(),
+            mark: 0,
+            total: 0,
+            avg: 0,
+            count: 0,
+        }
+    }
+
+    fn theme(&self) -> Theme {
+        Theme::Dark
+    }
+
+    fn title(&self) -> String {
+        String::from("Week 5")
+    }
+
+    fn update(&mut self, message: Message) {
+        match message {
+            Message::Submit => {
+                self.total += self.mark;
+                self.count += 1;
+                self.update(Message::Clear);
             }
-        })
+            Message::Clear => {
+                self.name = String::new();
+                self.mark = 0;
+                self.avg = self.total / self.count;
+            }
+            Message::UpdateName(s) => self.name = s,
+            Message::UpdateMark(s) => self.mark = s.parse::<u32>().unwrap_or(0),
+        }
+    }
+
+    fn view(&self) -> Element<Message> {
+        column![
+            row![
+                text("Student Name:"),
+                text_input("", &self.name.to_string()).on_input(Message::UpdateName)
+            ],
+            row![
+                text("Student Mark:"),
+                text_input("", &self.mark.to_string()).on_input(Message::UpdateMark)
+            ],
+            row![
+                button("Submit").on_press(Message::Submit),
+                button("Clear").on_press(Message::Clear)
+            ],
+            row![text("Total:"), text_input("", &self.avg.to_string())]
+        ]
+        .padding(20)
+        .align_items(Alignment::Center)
+        .into()
+    }
 }

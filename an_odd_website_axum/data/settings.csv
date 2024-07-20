@@ -1,0 +1,4 @@
+enable-dashboard,true
+enable-clients,false
+enable-employees,false
+enable-exporters,false

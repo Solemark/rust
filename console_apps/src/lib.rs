@@ -5,6 +5,8 @@ mod date_time;
 mod dice_roll;
 mod filter;
 mod fizz_buzz;
+mod gacha_roll;
+mod json_formatter;
 mod map;
 mod multiplication_tables;
 mod palindrome;

@@ -27,16 +27,14 @@ fn get_mark() -> i32 {
 }
 
 fn get_grade(input: i32) -> String {
-    let output: String;
     match input {
-        0..=49 => output = String::from("Failed"),
-        50..=64 => output = String::from("Passed"),
-        65..=74 => output = String::from("Credit"),
-        75..=84 => output = String::from("Distinction"),
-        85..=100 => output = String::from("High Distinction"),
-        _ => output = format!("Error! Number {} out of bounds!", input),
+        0..=49 => String::from("Failed"),
+        50..=64 => String::from("Passed"),
+        65..=74 => String::from("Credit"),
+        75..=84 => String::from("Distinction"),
+        85..=100 => String::from("High Distinction"),
+        _ => format!("Error! Number {} out of bounds!", input),
     }
-    output
 }
 
 pub fn w4() -> String {

@@ -19,16 +19,15 @@ fn get_name() -> String {
     let mut input = String::new();
     print!("Enter the name of the student: ");
     read(&mut input);
-    match input.trim_end() {
-        name => name.to_string(),
-    }
+    input.trim_end().to_string()
 }
 
 fn get_mark(name: &String, max_marks: &f32) -> f32 {
     let mut input = String::new();
     print!("Enter the mark of {} out of {}: ", name, &max_marks);
     read(&mut input);
-    match input.trim_end() {
-        mark => mark.parse().expect("Error! Unable to parse as number"),
-    }
+    input
+        .trim_end()
+        .parse()
+        .expect("Error! Unable to parse as number")
 }
