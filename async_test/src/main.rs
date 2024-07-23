@@ -1,38 +1,35 @@
 use std::{sync::mpsc, thread, time::Duration};
 
-// fn main() {
-//     let handle = thread::spawn(|| {
-//         for i in 1..10 {
-//             println!("hi number {i} from spawned thread!");
-//             thread::sleep(Duration::from_millis(1));
-//         }
-//     });
-//     handle.join().unwrap();
-//     for i in 1..5 {
-//         println!("hi number {i} from the main thread!");
-//         thread::sleep(Duration::from_millis(1));
-//     }
-// }
-
-// fn main() {
-//     let val = match thread::spawn(hello_world).join() {
-//         Ok(s) => s,
-//         Err(_) => panic!(),
-//     };
-//     println!("{}", val);
-// }
-
-// fn hello_world() -> String {
-//     String::from("Hello world!")
-// }
-
 fn main() {
-    let (tx, rx) = mpsc::channel();
-    thread::spawn(move || {
-        let val = String::from("hi");
-        tx.send(val).unwrap();
-    });
+    threads_vs_sync();
+    thread_result_handling();
+    sender_receiver_example();
+}
 
-    let recieved = rx.recv().unwrap();
-    println!("Got: {}", recieved);
+fn threads_vs_sync() {
+    let handle = thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {i} from spawned thread!");
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+    for i in 1..5 {
+        println!("hi number {i} from the main thread!");
+        thread::sleep(Duration::from_millis(1));
+    }
+    handle.join().unwrap();
+}
+
+fn thread_result_handling() {
+    let val = match thread::spawn(|| String::from("Hello world!")).join() {
+        Ok(s) => s,
+        Err(_) => panic!(),
+    };
+    println!("{}", val);
+}
+
+fn sender_receiver_example() {
+    let (tx, rx) = mpsc::channel();
+    thread::spawn(move || tx.send(String::from("Hi!")).unwrap());
+    println!("Got: {}", rx.recv().unwrap());
 }
