@@ -8,13 +8,13 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::fs::read_to_string;
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub(crate) struct Client {
-    id: usize,
-    first_name: String,
-    last_name: String,
-    email: String,
-    visible: bool,
+    pub(crate) id: usize,
+    pub(crate) first_name: String,
+    pub(crate) last_name: String,
+    pub(crate) email: String,
+    pub(crate) visible: bool,
 }
 impl Helpers for Client {
     fn to_json(&self) -> String {
@@ -31,83 +31,64 @@ impl Helpers for Client {
         )
     }
 }
-const FILENAME: &str = "clients";
 
-/**
- * Send all client data
- * return [`Response`]
- */
 pub(crate) async fn client_data_handler() -> Response {
     Response::builder()
         .status(StatusCode::OK)
         .header("Content-Type", "application/json")
         .body(Body::from(to_json_string(
             get_client_list()
-                .await
                 .into_iter()
-                .filter(|client| client.visible)
-                .collect::<Vec<Client>>(),
+                .filter(|c| c.visible)
+                .collect(),
         )))
         .unwrap_or_default()
 }
 
-/**
- * Get clients as a [Vec<Client>]
- * Return: [`Vec<Client>`]
- */
-async fn get_client_list() -> Vec<Client> {
+pub(crate) fn get_client_list() -> Vec<Client> {
     read_to_string("data/clients.csv")
         .unwrap_or_default()
         .lines()
-        .map(|s| {
-            let c = s.split(',').collect::<Vec<&str>>();
-            Client {
-                id: c[0].parse::<usize>().unwrap_or_default(),
-                first_name: String::from(c[1]),
-                last_name: String::from(c[2]),
-                email: String::from(c[3]),
-                visible: c[4].parse::<bool>().unwrap_or_default(),
-            }
-        })
+        .map(parse_client)
         .collect()
 }
 
-/**
- * Get the new client [`Form`] data
- * Param: [`Form<Client>`]
- * Return: [`Redirect`] to [/clients]
- */
-pub(crate) async fn new_client_handler(Form(client): Form<Client>) -> Redirect {
-    let client_list = get_client_list().await;
+pub(crate) fn parse_client(s: &str) -> Client {
+    let c: Vec<&str> = s.split(',').collect();
+    Client {
+        id: c[0].parse::<usize>().unwrap_or_default(),
+        first_name: String::from(c[1]),
+        last_name: String::from(c[2]),
+        email: String::from(c[3]),
+        visible: c[4].parse::<bool>().unwrap_or_default(),
+    }
+}
+
+pub(crate) async fn new_client_handler(Form(cli): Form<Client>) -> Redirect {
+    let client_list = get_client_list();
     let cll = client_list.len();
     write_to_file(
         client_list
             .into_iter()
             .chain(vec![Client {
                 id: cll,
-                first_name: client.first_name,
-                last_name: client.last_name,
-                email: client.email,
+                first_name: cli.first_name,
+                last_name: cli.last_name,
+                email: cli.email,
                 visible: true,
             }])
             .collect(),
-        FILENAME.to_string(),
+        "clients".to_string(),
     );
     Redirect::to("/clients")
 }
 
-/**
- * Remove the client recieved in [`Form`] data
- * Param: [`Form<Client>`]
- * Return: [`Redirect`] to [/clients]
- */
-pub(crate) async fn remove_client_handler(Form(client): Form<Client>) -> Redirect {
+pub(crate) async fn remove_client_handler(Form(cli): Form<Client>) -> Redirect {
     write_to_file(
         get_client_list()
-            .await
             .into_iter()
             .map(|c| {
-                if c.id == client.id {
+                if c.id == cli.id {
                     Client {
                         id: c.id,
                         first_name: c.first_name,
@@ -120,24 +101,18 @@ pub(crate) async fn remove_client_handler(Form(client): Form<Client>) -> Redirec
                 }
             })
             .collect(),
-        FILENAME.to_string(),
+        "clients".to_string(),
     );
     Redirect::to("/clients")
 }
 
-/**
- * Update the client recieved in [`Form`] data
- * Param: [`Form<Client>`]
- * Return: [`Redirect`] to [/clients]
- */
-pub(crate) async fn update_client_handler(Form(client): Form<Client>) -> Redirect {
+pub(crate) async fn update_client_handler(Form(cli): Form<Client>) -> Redirect {
     write_to_file(
         get_client_list()
-            .await
             .into_iter()
-            .map(|c| if c.id == client.id { client.clone() } else { c })
+            .map(|c| if c.id == cli.id { cli.clone() } else { c })
             .collect(),
-        FILENAME.to_string(),
+        "clients".to_string(),
     );
     Redirect::to("/clients")
 }

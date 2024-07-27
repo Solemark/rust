@@ -29,7 +29,51 @@ impl Helpers for Job {
         )
     }
 }
-const FILENAME: &str = "jobs";
+
+pub(crate) async fn get_jobs_handler() -> Response {
+    Response::builder()
+        .status(StatusCode::OK)
+        .header("Content-Type", "application/json")
+        .body(Body::from(to_json_string(get_jobs_list())))
+        .unwrap_or_default()
+}
+
+pub(crate) async fn new_jobs_handler(Form(job): Form<Job>) -> Redirect {
+    let jobs_list = get_jobs_list();
+    let jll = jobs_list.len();
+    write_to_file(
+        jobs_list
+            .clone()
+            .into_iter()
+            .chain(vec![Job {
+                id: jll,
+                name: job.name,
+                created: job.created,
+                status: job.status,
+            }])
+            .collect(),
+        "jobs".to_string(),
+    );
+    Redirect::to("/accounting")
+}
+
+fn get_jobs_list() -> Vec<Job> {
+    read_to_string("data/jobs.csv")
+        .unwrap_or_default()
+        .lines()
+        .map(parse_job)
+        .collect()
+}
+
+fn parse_job(s: &str) -> Job {
+    let j: Vec<&str> = s.split(',').collect();
+    Job {
+        id: j[0].parse::<usize>().unwrap_or_default(),
+        name: String::from(j[1]),
+        created: String::from(j[2]),
+        status: String::from(j[3]),
+    }
+}
 
 #[derive(Serialize, Deserialize, Clone)]
 pub(crate) struct Export {
@@ -51,58 +95,15 @@ impl Helpers for Export {
     }
 }
 
-pub(crate) async fn get_jobs_handler() -> Response {
-    Response::builder()
-        .status(StatusCode::OK)
-        .header("Content-Type", "application/json")
-        .body(Body::from(to_json_string(get_jobs_list().await)))
-        .unwrap_or_default()
-}
-
 pub(crate) async fn get_exports_handler() -> Response {
     Response::builder()
         .status(StatusCode::OK)
         .header("Content-Type", "application/json")
-        .body(Body::from(to_json_string(get_exports_list().await)))
+        .body(Body::from(to_json_string(get_exports_list())))
         .unwrap_or_default()
 }
 
-pub(crate) async fn new_jobs_handler(Form(job): Form<Job>) -> Redirect {
-    let jobs_list = get_jobs_list().await;
-    let jll = jobs_list.len();
-    write_to_file(
-        jobs_list
-            .clone()
-            .into_iter()
-            .chain(vec![Job {
-                id: jll,
-                name: job.name,
-                created: job.created,
-                status: job.status,
-            }])
-            .collect(),
-        FILENAME.to_string(),
-    );
-    Redirect::to("/accounting")
-}
-
-async fn get_jobs_list() -> Vec<Job> {
-    read_to_string("data/jobs.csv")
-        .unwrap_or_default()
-        .lines()
-        .map(|s| {
-            let j = s.split(',').collect::<Vec<&str>>();
-            Job {
-                id: j[0].parse::<usize>().unwrap_or_default(),
-                name: String::from(j[1]),
-                created: String::from(j[2]),
-                status: String::from(j[3]),
-            }
-        })
-        .collect()
-}
-
-async fn get_exports_list() -> Vec<Export> {
+fn get_exports_list() -> Vec<Export> {
     read_to_string("data/exports.csv")
         .unwrap_or_default()
         .lines()
