@@ -45,7 +45,7 @@ pub(crate) async fn client_data_handler() -> Response {
         .unwrap_or_default()
 }
 
-pub(crate) fn get_client_list() -> Vec<Client> {
+fn get_client_list() -> Vec<Client> {
     read_to_string("data/clients.csv")
         .unwrap_or_default()
         .lines()
@@ -53,7 +53,7 @@ pub(crate) fn get_client_list() -> Vec<Client> {
         .collect()
 }
 
-pub(crate) fn parse_client(s: &str) -> Client {
+fn parse_client(s: &str) -> Client {
     let c: Vec<&str> = s.split(',').collect();
     Client {
         id: c[0].parse::<usize>().unwrap_or_default(),
