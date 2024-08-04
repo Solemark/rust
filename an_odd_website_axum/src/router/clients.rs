@@ -10,11 +10,11 @@ use std::fs::read_to_string;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub(crate) struct Client {
-    pub(crate) id: usize,
-    pub(crate) first_name: String,
-    pub(crate) last_name: String,
-    pub(crate) email: String,
-    pub(crate) visible: bool,
+    id: usize,
+    first_name: String,
+    last_name: String,
+    email: String,
+    visible: bool,
 }
 impl Helpers for Client {
     fn to_json(&self) -> String {

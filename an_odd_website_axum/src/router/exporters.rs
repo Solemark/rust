@@ -10,10 +10,10 @@ use std::fs::read_to_string;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub(crate) struct Job {
-    pub(crate) id: usize,
-    pub(crate) name: String,
-    pub(crate) created: String,
-    pub(crate) status: String,
+    id: usize,
+    name: String,
+    created: String,
+    status: String,
 }
 impl Helpers for Job {
     fn to_json(&self) -> String {
@@ -77,8 +77,8 @@ fn parse_job(s: &str) -> Job {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub(crate) struct Export {
-    pub(crate) id: usize,
-    pub(crate) name: String,
+    id: usize,
+    name: String,
 }
 impl Helpers for Export {
     fn to_json(&self) -> String {
