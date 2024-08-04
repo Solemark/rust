@@ -4,6 +4,7 @@ fn main() {
     threads_vs_sync();
     thread_result_handling();
     sender_receiver_example();
+    wait_some_seconds();
 }
 
 fn threads_vs_sync() {
@@ -32,4 +33,16 @@ fn sender_receiver_example() {
     let (tx, rx) = mpsc::channel();
     thread::spawn(move || tx.send(String::from("Hi!")).unwrap());
     println!("Got: {}", rx.recv().unwrap());
+}
+
+fn wait_some_seconds() {
+    thread::spawn(|| {
+        for i in 1..=10 {
+            let n = 10 - i;
+            thread::sleep(Duration::from_secs(n));
+            println!("number {}, reporting in after {}seconds", i, n);
+        }
+    })
+    .join()
+    .unwrap();
 }
