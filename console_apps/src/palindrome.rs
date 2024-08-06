@@ -1,12 +1,14 @@
 #[allow(dead_code)]
-pub fn palindrome(input: String, x: Option<usize>, y: Option<usize>) -> bool {
+pub fn palindrome(input: String) -> bool {
+    run(input.clone(), 0, input.len() - 1)
+}
+
+fn run(input: String, x: usize, y: usize) -> bool {
     if x > y {
         return true;
     }
-    let i = x.unwrap_or_default();
-    let j = y.unwrap_or(input.len() - 1);
-    if input.chars().nth(i) != input.chars().nth(j) {
+    if input.chars().nth(x + 1) != input.chars().nth(y - 1) {
         return false;
     }
-    palindrome(input, Some(i + 1), Some(j - 1))
+    run(input, x + 1, y - 1)
 }
