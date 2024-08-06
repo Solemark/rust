@@ -4,10 +4,10 @@ mod tests {
 
     #[test]
     fn test_check_palindrome() {
-        assert_eq!(palindrome(String::from("ABCDCBA"), None, None), true);
+        assert_eq!(palindrome(String::from("ABCDCBA")), true);
     }
     #[test]
     fn test_check_case_sensitivity() {
-        assert_eq!(palindrome(String::from("ABCDcba"), None, None), false);
+        assert_eq!(palindrome(String::from("ABCDcba")), false);
     }
 }
