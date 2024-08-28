@@ -1,18 +1,14 @@
-use chrono::{self, DateTime, Datelike, Local, Weekday};
+use chrono::{self, Datelike, Weekday};
 
 #[allow(dead_code)]
 pub fn check_time() -> String {
-    let datetime: DateTime<Local> = chrono::offset::Local::now();
-    let day: Weekday = Datelike::weekday(&datetime);
-    let date: u32 = Datelike::day(&datetime);
-    let month: u32 = Datelike::month(&datetime);
-    let year: i32 = Datelike::year(&datetime);
+    let datetime = chrono::offset::Local::now();
     format!(
         "the date is {} the {} of {} {}",
-        cure_day(day),
-        cure_date(date),
-        cure_month(month),
-        year
+        cure_day(datetime.weekday()),
+        cure_date(datetime.day()),
+        cure_month(datetime.month()),
+        datetime.year()
     )
 }
 
@@ -30,13 +26,9 @@ fn cure_day(day: Weekday) -> String {
 
 fn cure_date(date: u32) -> String {
     match date {
-        1 => format!("{}{}", date, "st"),
-        2 => format!("{}{}", date, "nd"),
-        3 => format!("{}{}", date, "rd"),
-        21 => format!("{}{}", date, "st"),
-        22 => format!("{}{}", date, "nd"),
-        23 => format!("{}{}", date, "rd"),
-        31 => format!("{}{}", date, "st"),
+        1 | 21 | 31 => format!("{}{}", date, "st"),
+        2 | 22 => format!("{}{}", date, "nd"),
+        3 | 23 => format!("{}{}", date, "rd"),
         _ => format!("{}{}", date, "th"),
     }
 }
