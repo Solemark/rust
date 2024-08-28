@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crate::csv::Csv;
+    use crate::csv::{load, Csv};
     use std::path::Path;
 
     fn setup(test_number: i8) -> Csv {
@@ -16,16 +16,16 @@ mod tests {
             data: input,
         };
         match csv.write() {
-            Ok(flag) => println!("Successfully written: {}", flag),
-            Err(error) => panic!("IOError, failed to write: {}", error),
+            Ok(_) => println!("Successfully written"),
+            Err(error) => panic!("io::Error, failed to write: {}", error),
         }
         return csv;
     }
 
     fn teardown(csv: &Csv) {
         match csv.destroy() {
-            Ok(flag) => println!("Successfully destroyed: {}", flag),
-            Err(error) => panic!("IOError, failed to destroy: {}", error),
+            Ok(_) => println!("Successfully destroyed"),
+            Err(error) => panic!("io::Error, failed to destroy: {}", error),
         }
     }
 
@@ -39,7 +39,7 @@ mod tests {
     #[test]
     fn test_csv_has_data() {
         let csv: Csv = setup(2);
-        match Csv::load(&csv.filename) {
+        match load(csv.filename.clone()) {
             Ok(data) => assert_eq!(csv.data, data.data),
             Err(e) => panic!("Error: {}", e),
         };
