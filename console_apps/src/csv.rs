@@ -25,7 +25,7 @@ impl Csv {
         }
         match File::create(&self.filename) {
             Ok(mut f) => match f.write_all(output.as_bytes()) {
-                Ok(_) => Ok(()), //We only return a value on the fail
+                Ok(_) => Ok(()),
                 Err(e) => Err(e),
             },
             Err(e) => Err(e),
@@ -34,7 +34,7 @@ impl Csv {
 
     pub fn destroy(&self) -> Result<(), Error> {
         match fs::remove_file(&self.filename) {
-            Ok(_) => Ok(()), //We only return a value on the fail
+            Ok(_) => Ok(()),
             Err(error) => Err(error),
         }
     }
