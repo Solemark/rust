@@ -1,17 +1,13 @@
 #[allow(dead_code)]
-pub fn fizz_buzz(fizz: i32, buzz: i32, max: i32) -> String {
-    play(fizz, buzz, max, 1, String::new())
-}
-fn play(fizz: i32, buzz: i32, max: i32, i: i32, output: String) -> String {
-    if i > max {
-        return output;
+pub fn fizz_buzz(fizz: u32, buzz: u32, max: u32) -> String {
+    let mut output = String::new();
+    for i in 1..=max {
+        output += if_then(i % fizz == 0, "fizz");
+        output += if_then(i % buzz == 0, "buzz");
+        output += if_then(!output.ends_with('z'), &i.to_string());
+        output += if_then(i != max, ", ");
     }
-    let mut str = String::new();
-    str += if_then(i % fizz == 0, "fizz");
-    str += if_then(i % buzz == 0, "buzz");
-    str += if_then(!str.ends_with('z'), &i.to_string());
-    str += if_then(i != max, ", ");
-    play(fizz, buzz, max, i + 1, output + &str)
+    output
 }
 
 fn if_then(condition: bool, success: &str) -> &str {
