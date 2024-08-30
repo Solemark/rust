@@ -61,25 +61,14 @@ impl Sandbox for Bookings {
                 }
             }
             Msg::Clear => {
-                self.booking = Booking {
-                    id: 0,
-                    area: 0,
-                    weeks: 0,
-                    rooms: 0,
-                    address: String::new(),
-                    date: String::new(),
-                    phone: String::new(),
-                    owner: String::new(),
-                    alarm: false,
-                    maintenance: false,
-                };
+                self.booking.clear();
                 self.tbox = String::new();
             }
             Msg::Exit => exit(0),
-            Msg::ID(s) => self.booking.id = s.trim().parse().unwrap_or(0),
-            Msg::Area(s) => self.booking.area = s.trim().parse().unwrap_or(0),
-            Msg::Weeks(s) => self.booking.weeks = s.trim().parse().unwrap_or(0),
-            Msg::Rooms(s) => self.booking.rooms = s.trim().parse().unwrap_or(0),
+            Msg::ID(s) => self.booking.id = s.trim().parse().unwrap_or_default(),
+            Msg::Area(s) => self.booking.area = s.trim().parse().unwrap_or_default(),
+            Msg::Weeks(s) => self.booking.weeks = s.trim().parse().unwrap_or_default(),
+            Msg::Rooms(s) => self.booking.rooms = s.trim().parse().unwrap_or_default(),
             Msg::Address(s) => self.booking.address = s,
             Msg::Date(s) => self.booking.date = s,
             Msg::Phone(s) => self.booking.phone = s,

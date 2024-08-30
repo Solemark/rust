@@ -19,6 +19,19 @@ pub(crate) struct Booking {
 }
 
 impl Booking {
+    pub(crate) fn clear(&mut self) {
+        self.id = 0;
+        self.area = 0;
+        self.weeks = 0;
+        self.rooms = 0;
+        self.address = String::new();
+        self.date = String::new();
+        self.phone = String::new();
+        self.owner = String::new();
+        self.alarm = false;
+        self.maintenance = false;
+    }
+
     pub(crate) fn get_id(&self) -> String {
         if self.id == 0 {
             return String::new();
