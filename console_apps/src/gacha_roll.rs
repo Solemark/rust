@@ -17,7 +17,7 @@ pub fn roll(game: Game) -> String {
 }
 
 fn play(game: &str, rate: i32, pity: i32, rare: i32) -> String {
-    for roll in 1..=pity {
+    for roll in 1..pity {
         if rate == rand::thread_rng().gen_range(1..=rate) {
             return format!("It took {}/{} to get a {}* in {}", roll, pity, rare, game);
         }
