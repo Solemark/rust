@@ -38,12 +38,10 @@ mod tests {
 
     #[test]
     fn test_preprocess() {
-        let pf = Pathfinder { field: BOARD }.preprocess();
+        let pf = Pathfinder { field: BOARD }.preprocess().field;
         let mut expect = BOARD;
-        expect[1][5] = 'T';
-        expect[3][5] = 'T';
-        expect[6][5] = 'T';
-        assert_eq!(expect, pf.field);
+        (expect[1][5], expect[3][5], expect[6][5]) = ('T', 'T', 'T');
+        assert_eq!(expect, pf);
     }
 
     #[test]
