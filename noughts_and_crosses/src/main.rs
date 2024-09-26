@@ -1,8 +1,9 @@
-mod noughts_and_crosses;
 mod test;
+mod tictactoe;
 
-use crate::noughts_and_crosses::cli;
+use crate::tictactoe::TicTacToe;
 
 fn main() {
-    cli();
+    let board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    TicTacToe { board }.cli();
 }

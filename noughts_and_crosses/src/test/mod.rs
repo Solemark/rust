@@ -1,1 +1,1 @@
-mod noughts_and_crosses_test;
+mod tictactoe_test;
