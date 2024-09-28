@@ -3,9 +3,8 @@ pub enum Team {
     Black,
     White,
 }
-
-impl Into<String> for Team {
-    fn into(self) -> String {
+impl Team {
+    pub fn get_string(&self) -> String {
         match self {
             Team::Black => String::from("Black"),
             Team::White => String::from("White"),
@@ -22,9 +21,8 @@ pub enum Type {
     Queen,
     Rook,
 }
-
-impl Into<char> for Type {
-    fn into(self) -> char {
+impl Type {
+    pub fn get_char(&self) -> char {
         match self {
             Type::Pawn => 'P',
             Type::Knight => 'H',

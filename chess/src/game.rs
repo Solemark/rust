@@ -25,18 +25,15 @@ impl Game {
     }
 
     pub fn play(&mut self) {
-        for _ in 0..=2 {
-            let turn = Into::<String>::into(self.turn.clone());
-            println!("turn: {}\n{}\n{} to move", turn, self.draw_all(), turn);
-            self.turn = match self.turn {
-                Team::Black => Team::White,
-                Team::White => Team::Black,
-            };
-            self.player = match self.player {
-                Team::Black => Team::White,
-                Team::White => Team::Black,
-            };
-        }
+        println!("{}\n{} to move", self.draw_all(), self.turn.get_string());
+        self.turn = match self.turn {
+            Team::Black => Team::White,
+            Team::White => Team::Black,
+        };
+        self.player = match self.player {
+            Team::Black => Team::White,
+            Team::White => Team::Black,
+        };
     }
 
     pub fn draw_all(&mut self) -> String {
@@ -60,7 +57,7 @@ impl Game {
                     return;
                 }
             };
-            self.board[pos.1][char] = piece.get_piece().into();
+            self.board[pos.1][char] = piece.get_piece().get_char();
         }
     }
 
