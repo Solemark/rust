@@ -34,7 +34,7 @@ mod test {
             "8|R||H||B||Q||K||B||H||R|",
             "  A  B  C  D  E  F  G  H",
         );
-        let res = Game::new().set_player(Team::Black).draw_all();
+        let res = Game::new_as_player(Team::Black).draw_all();
         assert_eq!(exp, res)
     }
 }

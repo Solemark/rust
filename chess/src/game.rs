@@ -10,12 +10,25 @@ pub struct Game {
     player: Team,
 }
 
+#[allow(dead_code)]
 impl Game {
     pub fn new() -> Game {
         let board = BOARD;
         let pieces = get_pieces();
         let turn = Team::White;
         let player = Team::White;
+        Game {
+            board,
+            pieces,
+            turn,
+            player,
+        }
+    }
+
+    pub fn new_as_player(player: Team) -> Game {
+        let board = BOARD;
+        let pieces = get_pieces();
+        let turn = Team::White;
         Game {
             board,
             pieces,
@@ -40,11 +53,6 @@ impl Game {
         self.board = BOARD;
         self.draw_pieces();
         self.draw_board()
-    }
-
-    pub fn set_player(&mut self, player: Team) -> &mut Self {
-        self.player = player;
-        self
     }
 
     fn draw_pieces(&mut self) {
