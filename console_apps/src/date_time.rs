@@ -12,7 +12,7 @@ pub fn check_time() -> String {
     )
 }
 
-fn cure_day(day: Weekday) -> String {
+pub fn cure_day(day: Weekday) -> String {
     match day {
         Weekday::Mon => String::from("Monday"),
         Weekday::Tue => String::from("Tuesday"),
@@ -24,7 +24,7 @@ fn cure_day(day: Weekday) -> String {
     }
 }
 
-fn cure_date(date: u32) -> String {
+pub fn cure_date(date: u32) -> String {
     match date {
         1 | 21 | 31 => format!("{}{}", date, "st"),
         2 | 22 => format!("{}{}", date, "nd"),
@@ -33,7 +33,7 @@ fn cure_date(date: u32) -> String {
     }
 }
 
-fn cure_month(month: u32) -> String {
+pub fn cure_month(month: u32) -> String {
     match month {
         1 => String::from("January"),
         2 => String::from("February"),

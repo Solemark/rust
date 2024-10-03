@@ -8,7 +8,31 @@ pub struct Csv {
     pub data: Vec<Vec<String>>,
 }
 
+#[allow(dead_code)]
 impl Csv {
+    pub fn load(filename: String) -> Result<Csv, Error> {
+        match fs::read_to_string(&filename) {
+            Ok(res) => {
+                let data = Self::csv_to_vec(res);
+                Ok(Csv { filename, data })
+            }
+            Err(e) => Err(e),
+        }
+    }
+
+    fn csv_to_vec(res: String) -> Vec<Vec<String>> {
+        let mut data = Vec::new();
+        for row in res.lines() {
+            let mut row_items = Vec::new();
+            let items = row.split(',').collect::<Vec<&str>>();
+            for item in items {
+                row_items.push(item.to_string());
+            }
+            data.push(row_items);
+        }
+        data
+    }
+
     pub fn write(&self) -> Result<(), Error> {
         let mut output = String::new();
         let mut i = 0;
@@ -38,29 +62,4 @@ impl Csv {
             Err(error) => Err(error),
         }
     }
-}
-
-#[allow(dead_code)]
-pub fn load(filename: String) -> Result<Csv, Error> {
-    match fs::read_to_string(&filename) {
-        Ok(res) => {
-            let data = csv_to_vec(res);
-            Ok(Csv { filename, data })
-        }
-        Err(e) => Err(e),
-    }
-}
-
-#[allow(dead_code)]
-fn csv_to_vec(res: String) -> Vec<Vec<String>> {
-    let mut data = Vec::new();
-    for row in res.lines() {
-        let mut row_items = Vec::new();
-        let items = row.split(',').collect::<Vec<&str>>();
-        for item in items {
-            row_items.push(item.to_string());
-        }
-        data.push(row_items);
-    }
-    data
 }

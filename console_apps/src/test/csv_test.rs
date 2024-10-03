@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crate::csv::{load, Csv};
+    use crate::csv::Csv;
     use std::path::Path;
 
     fn setup(test_number: i8) -> Csv {
@@ -39,7 +39,7 @@ mod tests {
     #[test]
     fn test_csv_has_data() {
         let csv: Csv = setup(2);
-        match load(csv.filename.clone()) {
+        match Csv::load(csv.filename.clone()) {
             Ok(data) => assert_eq!(csv.data, data.data),
             Err(e) => panic!("Error: {}", e),
         };
