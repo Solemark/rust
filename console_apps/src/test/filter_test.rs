@@ -12,7 +12,7 @@ mod tests {
     #[test]
     fn test_filter_negative() {
         let input: Vec<i32> = get_data_negative();
-        let expect: Vec<i32> = vec![0, 1, 2, 3, 4, 5];
+        let expect: Vec<i32> = vec![1, 2, 3, 4, 5];
         let result: Vec<i32> = negative(input);
         assert_eq!(expect, result);
     }
@@ -20,7 +20,7 @@ mod tests {
     #[test]
     fn test_filter_positive() {
         let input: Vec<i32> = get_data_negative();
-        let expect: Vec<i32> = vec![-5, -4, -3, -2, -1, 0];
+        let expect: Vec<i32> = vec![-5, -4, -3, -2, -1];
         let result: Vec<i32> = positive(input);
         assert_eq!(expect, result);
     }

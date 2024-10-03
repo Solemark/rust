@@ -11,12 +11,15 @@ mod tests {
     fn test_circle_area() {
         let input: [f32; 4] = get_data();
         for r in input {
-            let mut expect: f32 = 0.0;
-            if r > 0.0 {
-                expect = PI * (r * r);
-            }
-            let result: f32 = area(r);
-            assert_eq!(expect, result);
+            let exp = {
+                if r > 0.0 {
+                    PI * r.powi(2)
+                } else {
+                    0.0
+                }
+            };
+            let res = area(r);
+            assert_eq!(exp, res);
         }
     }
 
@@ -24,12 +27,15 @@ mod tests {
     fn test_circle_perim() {
         let input: [f32; 4] = get_data();
         for r in input {
-            let mut expect: f32 = 0.0;
-            if r > 0.0 {
-                expect = 2.0 * PI * r;
-            }
-            let result: f32 = perimeter(r);
-            assert_eq!(expect, result);
+            let exp = {
+                if r > 0.0 {
+                    2.0 * PI * r
+                } else {
+                    0.0
+                }
+            };
+            let res = perimeter(r);
+            assert_eq!(exp, res);
         }
     }
 }

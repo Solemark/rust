@@ -1,16 +1,16 @@
 #[cfg(test)]
 mod tests {
-    use crate::gacha_roll::{roll, Game};
+    use crate::gacha_roll::{GachaRoll, Game};
 
     #[test]
     fn test_game_string_appears() {
-        let res = roll(Game::Fgo);
+        let res = GachaRoll::new(Game::Fgo).play();
         assert_eq!(true, res.contains("FGO"));
 
-        let res = roll(Game::Ak);
+        let res = GachaRoll::new(Game::Ak).play();
         assert_eq!(true, res.contains("AK"));
 
-        let res = roll(Game::Gi);
+        let res = GachaRoll::new(Game::Gi).play();
         assert_eq!(true, res.contains("GI"));
     }
 }

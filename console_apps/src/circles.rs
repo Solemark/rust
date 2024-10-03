@@ -1,17 +1,23 @@
-use std::f32::consts::PI;
+const PI: f32 = std::f32::consts::PI;
 
 #[allow(dead_code)]
 pub fn area(radius: f32) -> f32 {
-    if radius < 0.0 {
-        return 0.0;
+    if validate(radius) {
+        PI * radius.powi(2)
+    } else {
+        0.0
     }
-    PI * (radius * radius)
 }
 
 #[allow(dead_code)]
 pub fn perimeter(radius: f32) -> f32 {
-    if radius < 0.0 {
-        return 0.0;
+    if validate(radius) {
+        2.0 * PI * radius
+    } else {
+        0.0
     }
-    2.0 * PI * radius
+}
+
+fn validate(radius: f32) -> bool {
+    radius >= 0.0
 }
