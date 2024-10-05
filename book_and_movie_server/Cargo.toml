@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "book_server",
+    "movie_server",
+    "server_coordinator",
+    "client", "common",
+]
+resolver = "2"
