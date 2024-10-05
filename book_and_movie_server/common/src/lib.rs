@@ -16,7 +16,7 @@ pub const READ_ERR: &str = "TcpStream::read failed";
 pub const FLSH_ERR: &str = "Stdout::flush failed";
 pub const RDLN_ERR: &str = "Stdin::read_line failed";
 
-pub fn send_and_recv(msg: &String, send_addr: &str, resp_addr: &str) -> String {
+pub fn send_and_recv(msg: &str, send_addr: &str, resp_addr: &str) -> String {
     let mut res = String::new();
     send_message(msg, send_addr);
 
@@ -38,4 +38,10 @@ pub fn handle_response(mut stream: TcpStream) -> String {
     let mut msg = [0; 1024];
     stream.read(&mut msg).expect(READ_ERR);
     String::from_utf8_lossy(&msg).to_string()
+}
+
+pub fn write_to_server(msg: &str, name: &str) {
+    let mut output = msg.chars();
+    output.next();
+    println!("{} writing {}", name, output.as_str());
 }

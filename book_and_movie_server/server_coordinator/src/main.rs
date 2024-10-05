@@ -12,12 +12,12 @@ fn main() {
     }
 }
 
-fn handle_message(msg: &String) {
-    let c = msg.chars().nth(0).unwrap_or('n');
-    match c {
-        'b' => send_message(msg, BOOK_ROUTE),
-        'm' => send_message(msg, MOVIE_ROUTE),
-        'c' => send_message(msg, CLIENT_ROUTE),
+fn handle_message(msg: &str) {
+    let mut chars = msg.chars();
+    match chars.next().unwrap() {
+        'b' => send_message(chars.as_str(), BOOK_ROUTE),
+        'm' => send_message(chars.as_str(), MOVIE_ROUTE),
+        'c' => send_message(chars.as_str(), CLIENT_ROUTE),
         _ => send_message("unknown type!", CLIENT_ROUTE),
     }
 }

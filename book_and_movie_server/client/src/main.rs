@@ -5,7 +5,8 @@ fn main() {
     let msg = get_message();
     println!("message: {}", msg);
 
-    send_and_recv(&msg, COORD_ROUTE, CLIENT_ROUTE);
+    let res = send_and_recv(&msg, COORD_ROUTE, CLIENT_ROUTE);
+    println!("{}", res)
 }
 
 fn get_message() -> String {
@@ -21,7 +22,9 @@ fn get_message() -> String {
 fn ask(msg: &str) -> String {
     let mut output = String::new();
     println!("{}", msg);
+
     stdout().flush().expect(FLSH_ERR);
     stdin().read_line(&mut output).expect(RDLN_ERR);
+
     output.trim().to_string()
 }
