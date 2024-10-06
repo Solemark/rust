@@ -1,4 +1,4 @@
-use common::{self, handle_response, send_message, write_to_server, BOOK_ROUTE, COORD_ROUTE};
+use common::{self, handle_response, send_message, write_to_file, BOOK_ROUTE, COORD_ROUTE};
 use std::net::TcpListener;
 
 fn main() {
@@ -6,7 +6,7 @@ fn main() {
         let msg = handle_response(stream.unwrap());
         println!("recieved message: {}", msg);
 
-        write_to_server(&msg, "book");
+        write_to_file(&msg, "book");
         send_message("cbook successfully written", COORD_ROUTE);
     }
 }

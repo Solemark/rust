@@ -1,4 +1,4 @@
-use common::{self, handle_response, send_message, write_to_server, COORD_ROUTE, MOVIE_ROUTE};
+use common::{self, handle_response, send_message, write_to_file, COORD_ROUTE, MOVIE_ROUTE};
 use std::net::TcpListener;
 
 fn main() {
@@ -6,7 +6,7 @@ fn main() {
         let msg = handle_response(stream.unwrap());
         println!("recieved message: {}", msg);
 
-        write_to_server(&msg, "movie");
+        write_to_file(&msg, "movie");
         send_message("cmovie successfully written", COORD_ROUTE);
     }
 }

@@ -40,7 +40,7 @@ pub fn handle_response(mut stream: TcpStream) -> String {
     String::from_utf8_lossy(&msg).to_string()
 }
 
-pub fn write_to_server(msg: &str, name: &str) {
+pub fn write_to_file(msg: &str, name: &str) {
     let mut output = msg.chars();
     output.next();
     println!("{} writing {}", name, output.as_str());
